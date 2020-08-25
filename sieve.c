@@ -11,22 +11,25 @@ void set_bit(uint8_t* sieve, int bit);
 int main(int argc, char** argv)
 {
     const int MAX_NUM = 1000;
+    const int SEARCH_LIMIT = ceil(sqrt(MAX_NUM));
 
     //Range 0-MAX_NUM inclusive
     const int NUM_BITS = MAX_NUM + 1;
     const int NUM_BYTES = ceil(NUM_BITS / 8.0);
 
     uint8_t* sieve = (uint8_t*) malloc(NUM_BYTES * sizeof(uint8_t));
-
-    int i;
-    for (i = 0; i < NUM_BITS; i++)
+    
+    int p;
+    for (p = 2; p <= SEARCH_LIMIT; p++)
     {
-        set_bit(sieve, i);
-        BOOL b = get_bit(sieve, i);
+        int q = 2 * p;
+        while (q <= MAX_NUM) {
+            set_bit(sieve, q);
+            q += p;
+        }
     }
 
     free(sieve);
-
     return 0;
 }
 
