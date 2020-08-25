@@ -1,10 +1,11 @@
 #include <stdint.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-bool get_bit(uint8_t* sieve, int bit);
+#define BOOL uint8_t
+
+BOOL get_bit(uint8_t* sieve, int bit);
 void set_bit(uint8_t* sieve, int bit);
 
 int main(int argc, char** argv)
@@ -20,7 +21,8 @@ int main(int argc, char** argv)
     int i;
     for (i = 0; i < NUM_BITS; i++)
     {
-        bool b = get_bit(sieve, i);
+        set_bit(sieve, i);
+        BOOL b = get_bit(sieve, i);
     }
 
     free(sieve);
@@ -28,16 +30,25 @@ int main(int argc, char** argv)
     return 0;
 }
 
-bool get_bit(uint8_t* sieve, int bit)
+BOOL get_bit(uint8_t* sieve, int bit)
 {
     int byte = bit / 8;
     int offset = bit % 8;
 
     uint8_t sieveByte = *(sieve + byte);
-    printf("Byte Num: %d, value = %d\n", byte, sieveByte);
 
-    return false;
+    uint8_t bitMask = 1 << offset;
+    return (sieveByte & bitMask);
 }
 
 void set_bit(uint8_t* sieve, int bit)
-{}
+{
+    int byte = bit / 8;
+    int offset = bit % 8;
+
+    uint8_t sieveByte = *(sieve + byte);
+    uint8_t bitMask = 1 << offset;
+
+    sieveByte |= bitMask;
+    *(sieve + byte) = sieveByte;
+}
