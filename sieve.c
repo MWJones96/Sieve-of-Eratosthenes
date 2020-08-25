@@ -84,7 +84,28 @@ void print_primes(uint8_t* sieve, size_t size)
 void print_primes_fancy(uint8_t* sieve, size_t size, uint8_t cols, int max)
 {
     printf("All prime numbers <= %d\n", max);
-    print_header(cols, num_digits(max));
+
+    const uint8_t NUM_DIGITS = num_digits(max);
+
+    print_header(cols, NUM_DIGITS);
+
+    int nums_placed = 0;
+
+    int i;
+    for (i = 0; i < size; i++)
+    {
+        if (!get_bit(sieve, i))
+        {
+            printf("| %4d ", i);
+            ++nums_placed;
+        }
+
+        if (nums_placed % cols == 0 && !get_bit(sieve, i))
+        {
+            printf("|\n");
+            print_header(cols, NUM_DIGITS);
+        }
+    }
 }
 
 uint8_t num_digits(int n)
