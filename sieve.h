@@ -1,3 +1,6 @@
+#ifndef SIEVE_H
+#define SIEVE_H
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,3 +22,5 @@ uint8_t num_digits(int);
 void print_row(uint8_t, uint8_t);
 int get_highest_prime(uint8_t*, size_t);
 int getTotalNumberOfPrimes(uint8_t*, size_t);
+
+#endif
