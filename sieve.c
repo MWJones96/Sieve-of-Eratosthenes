@@ -11,10 +11,11 @@ void print_primes(uint8_t* sieve, size_t size);
 void print_primes_fancy(uint8_t* sieve, size_t size, uint8_t cols, int max);
 uint8_t num_digits(int n);
 void print_header(uint8_t cols, uint8_t numDigits);
+int get_highest_prime(uint8_t* sieve, size_t size);
 
 int main(int argc, char** argv)
 {
-    const int MAX_NUM = 1000;
+    const int MAX_NUM = 20;
     const int NUM_COLS = 8;
 
     const int SEARCH_LIMIT = ceil(sqrt(MAX_NUM));
@@ -83,10 +84,9 @@ void print_primes(uint8_t* sieve, size_t size)
 
 void print_primes_fancy(uint8_t* sieve, size_t size, uint8_t cols, int max)
 {
+    const uint8_t NUM_DIGITS = num_digits(get_highest_prime(sieve, size));
+
     printf("All prime numbers <= %d\n", max);
-
-    const uint8_t NUM_DIGITS = num_digits(max);
-
     print_header(cols, NUM_DIGITS);
 
     int nums_placed = 0;
@@ -96,11 +96,20 @@ void print_primes_fancy(uint8_t* sieve, size_t size, uint8_t cols, int max)
     {
         if (!get_bit(sieve, i))
         {
-            printf("| %4d ", i);
+            printf("| ");
+
+            uint8_t num_spaces = NUM_DIGITS - num_digits(i);
+            while (num_spaces-- > 0) {
+                printf(" ");
+            }
+
+            printf("%d", i);
+
+            printf(" ");
             ++nums_placed;
         }
 
-        if (nums_placed % cols == 0 && !get_bit(sieve, i))
+        if ((nums_placed % cols == 0 && !get_bit(sieve, i)) || i >= size-1)
         {
             printf("|\n");
             print_header(cols, NUM_DIGITS);
@@ -130,4 +139,19 @@ void print_header(uint8_t cols, uint8_t numDigits)
     }
 
     printf("\n");
+}
+
+int get_highest_prime(uint8_t* sieve, size_t size)
+{
+    int index = size - 1;
+
+    while (index-- >= 0)
+    {
+        if (!get_bit(sieve, index)) 
+        {
+            return index;
+        }
+    }
+
+    return -1;
 }
