@@ -89,14 +89,7 @@ void print_primes_fancy(uint8_t* sieve, size_t size, uint8_t cols, int max)
 
 uint8_t num_digits(int n)
 {
-    if (n < 10)
-    {
-        return 1;
-    }
-    else
-    {
-        return 1 + num_digits(n / 10);
-    }
+    return (n < 10) ? 1 : 1 + num_digits(n/10);
 }
 
 void print_header(uint8_t cols, uint8_t numDigits)
