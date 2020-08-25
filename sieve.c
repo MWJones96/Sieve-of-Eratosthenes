@@ -11,7 +11,7 @@ void print_primes(uint8_t* sieve, size_t size);
 
 int main(int argc, char** argv)
 {
-    const int MAX_NUM = 1000;
+    const int MAX_NUM = 1000000;
     const int SEARCH_LIMIT = ceil(sqrt(MAX_NUM));
 
     //Range 0-MAX_NUM inclusive
@@ -35,6 +35,7 @@ int main(int argc, char** argv)
     }
 
     print_primes(sieve, NUM_BITS);
+    //printf("Memory used: %d Bytes\n", SIZE);
 
     free(sieve);
     return 0;
