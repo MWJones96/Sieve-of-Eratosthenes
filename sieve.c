@@ -3,7 +3,11 @@
 #include <stdlib.h>
 #include <math.h>
 
+#define PRINT_FANCY
+
 #define BOOL uint8_t
+#define NO_PRIME_ERROR -1
+#define MIN(a,b) (((a)<(b))?(a):(b))
 
 BOOL get_bit(uint8_t* sieve, int bit);
 void set_bit(uint8_t* sieve, int bit);
@@ -12,10 +16,11 @@ void print_primes_fancy(uint8_t* sieve, size_t size, uint8_t cols, int max);
 uint8_t num_digits(int n);
 void print_header(uint8_t cols, uint8_t numDigits);
 int get_highest_prime(uint8_t* sieve, size_t size);
+int getTotalNumberOfPrimes(uint8_t* sieve, size_t size);
 
 int main(int argc, char** argv)
 {
-    const int MAX_NUM = 20;
+    const int MAX_NUM = 1000000;
     const int NUM_COLS = 8;
 
     const int SEARCH_LIMIT = ceil(sqrt(MAX_NUM));
@@ -40,7 +45,14 @@ int main(int argc, char** argv)
         }
     }
 
-    print_primes_fancy(sieve, NUM_BITS, NUM_COLS, MAX_NUM);
+    int num_primes = getTotalNumberOfPrimes(sieve, NUM_BITS);
+    
+    #ifdef PRINT_FANCY
+        print_primes_fancy(sieve, NUM_BITS, MIN(num_primes, NUM_COLS), MAX_NUM);
+    #else
+        print_primes(sieve, NUM_BITS);
+    #endif
+    
     //printf("Memory used: %d Bytes\n", SIZE);
 
     free(sieve);
@@ -86,7 +98,7 @@ void print_primes_fancy(uint8_t* sieve, size_t size, uint8_t cols, int max)
 {
     const uint8_t NUM_DIGITS = num_digits(get_highest_prime(sieve, size));
 
-    printf("All prime numbers <= %d\n", max);
+    printf("All prime numbers <= %d\n\n", max);
     print_header(cols, NUM_DIGITS);
 
     int nums_placed = 0;
@@ -104,15 +116,22 @@ void print_primes_fancy(uint8_t* sieve, size_t size, uint8_t cols, int max)
             }
 
             printf("%d", i);
-
             printf(" ");
-            ++nums_placed;
+
+            if (++nums_placed % cols == 0) 
+            {
+                printf("|\n");
+                print_header(cols, NUM_DIGITS);
+            }
         }
 
-        if ((nums_placed % cols == 0 && !get_bit(sieve, i)) || i >= size-1)
+        if (i >= size - 1)
         {
-            printf("|\n");
-            print_header(cols, NUM_DIGITS);
+            if (nums_placed % cols != 0) 
+            {
+                printf("|\n");
+                print_header(nums_placed % cols, NUM_DIGITS);
+            }
         }
     }
 }
@@ -153,5 +172,21 @@ int get_highest_prime(uint8_t* sieve, size_t size)
         }
     }
 
-    return -1;
+    return NO_PRIME_ERROR;
+}
+
+int getTotalNumberOfPrimes(uint8_t* sieve, size_t size)
+{
+    int total = 0;
+
+    int i;
+    for (i = 0; i < size; i++)
+    {
+        if (!get_bit(sieve, i))
+        {
+            ++total;
+        }
+    }
+
+    return total;
 }
