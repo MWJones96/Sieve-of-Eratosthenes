@@ -1,26 +1,8 @@
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-
-#define PRINT_FANCY
-
-#define BOOL uint8_t
-#define NO_PRIME_ERROR -1
-#define MIN(a,b) (((a)<(b))?(a):(b))
-
-BOOL get_bit(uint8_t* sieve, int bit);
-void set_bit(uint8_t* sieve, int bit);
-void print_primes(uint8_t* sieve, size_t size);
-void print_primes_fancy(uint8_t* sieve, size_t size, uint8_t cols, int max);
-uint8_t num_digits(int n);
-void print_row(uint8_t cols, uint8_t numDigits);
-int get_highest_prime(uint8_t* sieve, size_t size);
-int getTotalNumberOfPrimes(uint8_t* sieve, size_t size);
+#include "sieve.h"
 
 int main(int argc, char** argv)
 {
-    const int MAX_NUM = 100;
+    const int MAX_NUM = 1000;
     const int NUM_COLS = 8;
 
     const int SEARCH_LIMIT = ceil(sqrt(MAX_NUM));
@@ -53,7 +35,9 @@ int main(int argc, char** argv)
         print_primes(sieve, NUM_BITS);
     #endif
     
-    //printf("Memory used: %d Bytes\n", SIZE);
+    #ifdef PRINT_MEM_USAGE
+        printf("Memory used: %d Bytes\n", SIZE);
+    #endif
 
     free(sieve);
     return 0;
