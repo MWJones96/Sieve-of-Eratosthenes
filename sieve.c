@@ -8,10 +8,15 @@
 BOOL get_bit(uint8_t* sieve, int bit);
 void set_bit(uint8_t* sieve, int bit);
 void print_primes(uint8_t* sieve, size_t size);
+void print_primes_fancy(uint8_t* sieve, size_t size, uint8_t cols, int max);
+uint8_t num_digits(int n);
+void print_header(uint8_t cols, uint8_t numDigits);
 
 int main(int argc, char** argv)
 {
-    const int MAX_NUM = 1000000;
+    const int MAX_NUM = 1000;
+    const int NUM_COLS = 8;
+
     const int SEARCH_LIMIT = ceil(sqrt(MAX_NUM));
 
     //Range 0-MAX_NUM inclusive
@@ -34,7 +39,7 @@ int main(int argc, char** argv)
         }
     }
 
-    print_primes(sieve, NUM_BITS);
+    print_primes_fancy(sieve, NUM_BITS, NUM_COLS, MAX_NUM);
     //printf("Memory used: %d Bytes\n", SIZE);
 
     free(sieve);
@@ -74,4 +79,41 @@ void print_primes(uint8_t* sieve, size_t size)
             printf("%d\n", i);
         }
     }
+}
+
+void print_primes_fancy(uint8_t* sieve, size_t size, uint8_t cols, int max)
+{
+    printf("All prime numbers <= %d\n", max);
+    print_header(cols, num_digits(max));
+}
+
+uint8_t num_digits(int n)
+{
+    if (n < 10)
+    {
+        return 1;
+    }
+    else
+    {
+        return 1 + num_digits(n / 10);
+    }
+}
+
+void print_header(uint8_t cols, uint8_t numDigits)
+{
+    printf("-");
+
+    int col;
+    for (col = 0; col < cols; col++)
+    {
+        printf("-");
+        int digit;
+        for (digit=0; digit < numDigits; digit++)
+        {
+            printf("-");
+        }
+        printf("--");
+    }
+
+    printf("\n");
 }
