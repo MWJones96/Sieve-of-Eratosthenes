@@ -7,6 +7,7 @@
 
 BOOL get_bit(uint8_t* sieve, int bit);
 void set_bit(uint8_t* sieve, int bit);
+void print_primes(uint8_t* sieve, size_t size);
 
 int main(int argc, char** argv)
 {
@@ -17,7 +18,11 @@ int main(int argc, char** argv)
     const int NUM_BITS = MAX_NUM + 1;
     const int NUM_BYTES = ceil(NUM_BITS / 8.0);
 
-    uint8_t* sieve = (uint8_t*) malloc(NUM_BYTES * sizeof(uint8_t));
+    const size_t SIZE = NUM_BYTES * sizeof(uint8_t);
+    uint8_t* sieve = (uint8_t*) malloc(SIZE);
+
+    set_bit(sieve, 0);
+    set_bit(sieve, 1);
     
     int p;
     for (p = 2; p <= SEARCH_LIMIT; p++)
@@ -28,6 +33,8 @@ int main(int argc, char** argv)
             q += p;
         }
     }
+
+    print_primes(sieve, NUM_BITS);
 
     free(sieve);
     return 0;
@@ -54,4 +61,16 @@ void set_bit(uint8_t* sieve, int bit)
 
     sieveByte |= bitMask;
     *(sieve + byte) = sieveByte;
+}
+
+void print_primes(uint8_t* sieve, size_t size)
+{
+    int i;
+    for (i = 0; i < size; i++)
+    {
+        if (!get_bit(sieve, i))
+        {
+            printf("%d\n", i);
+        }
+    }
 }
