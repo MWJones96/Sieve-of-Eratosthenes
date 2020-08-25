@@ -10,11 +10,12 @@
 #define NO_PRIME_ERROR -1
 #define MIN(a,b) (((a)<(b))?(a):(b))
 
-BOOL get_bit(uint8_t* sieve, int bit);
-void set_bit(uint8_t* sieve, int bit);
-void print_primes(uint8_t* sieve, size_t size);
-void print_primes_fancy(uint8_t* sieve, size_t size, uint8_t cols, int max);
-uint8_t num_digits(int n);
-void print_row(uint8_t cols, uint8_t numDigits);
-int get_highest_prime(uint8_t* sieve, size_t size);
-int getTotalNumberOfPrimes(uint8_t* sieve, size_t size);
+void solve_for_primes(uint8_t*, size_t, int, int);
+BOOL get_bit(uint8_t*, int);
+void set_bit(uint8_t*, int);
+void print_primes(uint8_t*, size_t);
+void print_primes_fancy(uint8_t*, size_t, uint8_t, int);
+uint8_t num_digits(int);
+void print_row(uint8_t, uint8_t);
+int get_highest_prime(uint8_t*, size_t);
+int getTotalNumberOfPrimes(uint8_t*, size_t);
