@@ -19,7 +19,7 @@ Run the program with optional command-line arguments:
 
 | Argument | Description                                          | Default  |
 | ---------|:----------------------------------------------------:| --------:|
-| --max    | The maximum number the sieve will run up to          | 100      |
+| --max    | The upper limit for prime numbers to be searched     | 100      |
 | --cols   | The number of columns displayed (fancy format only)  | 10       |
 | --fancy  | Prints the numbers in a tabular format               | false    |
 | --mem    | Prints memory usage information                      | false    |
