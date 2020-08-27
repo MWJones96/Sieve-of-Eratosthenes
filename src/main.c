@@ -1,3 +1,4 @@
+#include "../header/core.h"
 #include "../header/sieve.h"
 #include "../header/args.h"
 

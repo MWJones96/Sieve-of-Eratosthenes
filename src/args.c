@@ -1,3 +1,4 @@
+#include "../header/core.h"
 #include "../header/args.h"
 
 struct SieveArgs getSieveArgs(int argc, char** argv)
@@ -9,47 +10,41 @@ struct SieveArgs getSieveArgs(int argc, char** argv)
     {
         char* argString = argv[argIndex];
         if (strcmp(argString, "--fancy") == STRING_MATCH) 
-        {
             sieveArgs.fancy = TRUE;
-        }
         else if (strcmp(argString, "--mem") == STRING_MATCH)
-        {
             sieveArgs.mem = TRUE;
-        }
         else if (strcmp(argString, "--max") == STRING_MATCH)
         {
             if (++argIndex >= argc)
-            {
-                printErrorAndExit(argString);
-            }
+                printErrorAndExit(argString, "There is no value after the --max flag");
 
             char* numString = argv[argIndex];
             if (!isInteger(numString)) 
-            {
-                printErrorAndExit(numString);
-            }
+                printErrorAndExit(numString, "--max is not an integer");
 
-            sieveArgs.maxNum = atoi(numString);
+            int num = atoi(numString);
+            if (num < 2)
+                printErrorAndExit(numString, "--max must be >= 2");
+
+            sieveArgs.maxNum = num;
         }
         else if (strcmp(argString, "--cols") == STRING_MATCH)
         {
             if (++argIndex >= argc)
-            {
-                printErrorAndExit(argString);
-            }
+                printErrorAndExit(argString, "There is no value after the --cols flag");
 
             char* numString = argv[argIndex];
             if (!isInteger(numString))
-            {
-                printErrorAndExit(numString);
-            }
+                printErrorAndExit(numString, "--cols is not an integer");
 
-            sieveArgs.numCols = atoi(numString);
+            int num = atoi(numString);
+            if (num < 2)
+                printErrorAndExit(numString, "--cols must be >= 2");
+
+            sieveArgs.numCols = num;
         }
         else
-        {
-            printErrorAndExit(argString);
-        }
+            printErrorAndExit(argString, "Not a valid command, choose from [--max, --cols, --fancy, --mem]");
         
     }
 
@@ -71,9 +66,9 @@ BOOL isInteger(char* string)
     return TRUE;
 }
 
-void printErrorAndExit(char* arg)
+void printErrorAndExit(char* arg, char* msg)
 {
-    printf("Invalid command line argument: %s\n", arg);
-    printf("Valid usage: ./sieve [--max 100] [--cols 10] [--fancy] [--mem]\n");
+    printf("BAD VALUE (%s): %s\n", arg, msg);
+    printf("Correct usage: ./sieve [--max 100] [--cols 10] [--fancy] [--mem]\n");
     exit(-1);
 }
