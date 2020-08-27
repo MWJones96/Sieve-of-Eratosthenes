@@ -1,5 +1,5 @@
-#include "sieve.h"
-#include "args.h"
+#include "../header/sieve.h"
+#include "../header/args.h"
 
 void solveForPrimes(struct SieveConfig config)
 {
@@ -43,7 +43,7 @@ void setBit(uint8_t* sieve, int bit)
 void printPrimes(struct SieveConfig config)
 {
     (config.args.fancy) ? 
-        printPrimesFancy(config.sieve, config.num, config.args.numCols, config.args.maxNum) : 
+        printPrimesFancy(config.sieve, config.NUM_BITS, config.args.numCols, config.args.maxNum) : 
         printPrimesList(config.sieve, config.NUM_BITS);
 
      if (config.args.mem)

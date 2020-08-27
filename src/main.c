@@ -1,5 +1,5 @@
-#include "sieve.h"
-#include "args.h"
+#include "../header/sieve.h"
+#include "../header/args.h"
 
 int main(int argc, char** argv)
 {

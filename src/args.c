@@ -1,4 +1,4 @@
-#include "args.h"
+#include "../header/args.h"
 
 struct SieveArgs getSieveArgs(int argc, char** argv)
 {

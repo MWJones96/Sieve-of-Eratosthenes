@@ -1,14 +1,14 @@
 sieve: sieve.o main.o args.o
 	gcc -o sieve -g -Wall main.o sieve.o args.o -lm
 
-main.o: main.c
-	gcc -g -c -Wall main.c
+main.o: src/main.c
+	gcc -g -c -Wall src/main.c
 
-sieve.o: sieve.c
-	gcc -g -c -Wall sieve.c
+sieve.o: src/sieve.c
+	gcc -g -c -Wall src/sieve.c
 
-args.o: args.c
-	gcc -g -c -Wall args.c
+args.o: src/args.c
+	gcc -g -c -Wall src/args.c
 
 clean:
 	rm -rf *.o sieve
