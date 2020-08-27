@@ -1,11 +1,11 @@
 # Sieve of Eratosthenes
 The classic Sieve of Eratosthenes written in C. Finds all prime numbers <= N and prints the out on the screen.
 
-##Usage
+## Usage
 
 Run the program using using ./sieve as it is, or specify a number of optional command line arguments.
 
-##Arguments
+## Arguments
 
 --max: The maximum value that the sieve will run up to
 --cols: The number of columns displayed (applicable only with fancy printing)
