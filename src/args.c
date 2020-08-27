@@ -20,7 +20,7 @@ struct SieveArgs getSieveArgs(int argc, char** argv)
 
             char* numString = argv[argIndex];
             if (!isInteger(numString)) 
-                printErrorAndExit(numString, "--max is not an integer");
+                printErrorAndExit(numString, "--max is not a positive integer");
 
             int num = atoi(numString);
             if (num < 2)
@@ -35,7 +35,7 @@ struct SieveArgs getSieveArgs(int argc, char** argv)
 
             char* numString = argv[argIndex];
             if (!isInteger(numString))
-                printErrorAndExit(numString, "--cols is not an integer");
+                printErrorAndExit(numString, "--cols is not a positive integer");
 
             int num = atoi(numString);
             if (num < 2)
@@ -68,7 +68,7 @@ BOOL isInteger(char* string)
 
 void printErrorAndExit(char* arg, char* msg)
 {
-    printf("BAD VALUE (%s): %s\n", arg, msg);
+    printf("BAD VALUE %s: %s\n", arg, msg);
     printf("Correct usage: ./sieve [--max 100] [--cols 10] [--fancy] [--mem]\n");
     exit(-1);
 }
