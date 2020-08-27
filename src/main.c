@@ -16,7 +16,7 @@ int main(int argc, char** argv)
     struct SieveConfig config = {args, NUM_BITS, NUM_BYTES, SEARCH_LIMIT, SIZE, sieve};
 
     solveForPrimes(config);
-    config.args.numCols = MIN(getTotalNumberOfPrimes(sieve, NUM_BITS), args.numCols);
+    config.args.numCols = MIN(getTotalNumberOfPrimes(config.sieve, config.NUM_BITS), config.args.numCols);
     printPrimes(config);
 
     free(config.sieve);
