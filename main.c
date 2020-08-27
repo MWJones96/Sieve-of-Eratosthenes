@@ -1,17 +1,30 @@
 #include "sieve.h"
 #include "args.h"
 
+struct SieveConfig
+{
+    struct SieveArgs args;
+
+    const int NUM_BITS;
+    const int NUM_BYTES;
+    const int SEARCH_LIMIT;
+
+    size_t SIZE;
+    uint8_t* sieve;
+};
+
 int main(int argc, char** argv)
 {
     struct SieveArgs args = getSieveArgs(argc, argv);
-    const int SEARCH_LIMIT = ceil(sqrt(args.maxNum));
 
-    //Range 0-MAX_NUM inclusive
     const int NUM_BITS = args.maxNum + 1;
     const int NUM_BYTES = ceil(NUM_BITS / 8.0);
-    const size_t SIZE = NUM_BYTES * sizeof(uint8_t);
+    const int SEARCH_LIMIT = ceil(sqrt(args.maxNum));
 
+    const size_t SIZE = NUM_BYTES * sizeof(uint8_t);
     uint8_t* sieve = (uint8_t*) malloc(SIZE);
+
+    struct SieveConfig config = {args, NUM_BITS, NUM_BYTES, SEARCH_LIMIT, SIZE, sieve};
 
     solveForPrimes(sieve, SIZE, SEARCH_LIMIT, args.maxNum);
     
