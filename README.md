@@ -24,6 +24,7 @@ Run the program with optional command-line arguments:
 
 | Argument      | Description   | Default  |
 | ------------- |:-------------:| --------:|
-| col 3 is      | right-aligned | $1600    |
-| col 2 is      | centered      |   $12    |
-| zebra stripes | are neat      |    $1    |
+| --max         | The maximum number the sieve will run up to | 100    |
+| --cols      | The number of columns displayed (fancy display only)      | 10    |
+| --fancy | Prints the numbers in a tabular format      | false    |
+| --mem | Prints memory usage information     | false    |
