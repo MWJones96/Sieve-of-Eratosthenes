@@ -1,16 +1,17 @@
 #include "sieve.h"
+#include "args.h"
 
-void solveForPrimes(uint8_t* sieve, size_t size, int search_lim, int maxNum)
+void solveForPrimes(struct SieveConfig config)
 {
-    setBit(sieve, 0);
-    setBit(sieve, 1);
+    setBit(config.sieve, 0);
+    setBit(config.sieve, 1);
     
     int p;
-    for (p = 2; p <= search_lim; p++)
+    for (p = 2; p <= config.SEARCH_LIMIT; p++)
     {
         int q = 2 * p;
-        while (q <= maxNum) {
-            setBit(sieve, q);
+        while (q <= config.args.maxNum) {
+            setBit(config.sieve, q);
             q += p;
         }
     }
@@ -39,7 +40,18 @@ void setBit(uint8_t* sieve, int bit)
     *(sieve + byte) = sieveByte;
 }
 
-void printPrimes(uint8_t* sieve, size_t size)
+void printPrimes(struct SieveConfig config)
+{
+    (config.args.fancy) ? 
+        printPrimesFancy(config.sieve, config.NUM_BITS, config.args.numCols, config.args.maxNum) : 
+        printPrimesList(config.sieve, config.NUM_BITS);
+
+     if (config.args.mem)
+        printf("Memory used: %d Bytes\n", config.SIZE);
+    
+}
+
+void printPrimesList(uint8_t* sieve, size_t size)
 {
     int i;
     for (i = 0; i < size; i++)

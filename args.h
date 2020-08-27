@@ -3,14 +3,6 @@
 
 #include "sieve.h"
 
-struct SieveArgs
-{
-    int maxNum;
-    int numCols;
-    BOOL fancy;
-    BOOL mem;
-};
-
 #define STRING_MATCH 0
 
 struct SieveArgs getSieveArgs(int argc, char** argv);
