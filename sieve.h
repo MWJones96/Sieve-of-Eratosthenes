@@ -10,6 +10,9 @@
 #define PRINT_MEM_USAGE
 
 #define BOOL uint8_t
+#define TRUE 1
+#define FALSE 0
+
 #define NO_PRIME_ERROR -1
 #define MIN(a,b) (((a)<(b))?(a):(b))
 
