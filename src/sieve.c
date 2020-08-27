@@ -69,7 +69,7 @@ void printPrimesFancy(uint8_t* sieve, size_t size, uint8_t cols, int max)
 {
     const uint8_t NUM_DIGITS = numDigits(getHighestPrime(sieve, size));
 
-    printf("Pprime numbers <= %d\n", max);
+    printf("Prime numbers <= %d\n", max);
     printRow(cols, NUM_DIGITS);
 
     int nums_placed = 0;
