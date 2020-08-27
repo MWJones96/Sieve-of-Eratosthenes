@@ -5,10 +5,14 @@ struct SieveArgs
     int maxNum;
     int numCols;
     BOOL fancy;
+    BOOL mem;
 };
 
+#define STRING_MATCH 0
+
 struct SieveArgs getSieveArgs(int argc, char** argv);
-BOOL isNumber(char* string);
+BOOL isInteger(char* string);
+void printErrorAndExit(char* arg);
 
 int main(int argc, char** argv)
 {
@@ -30,9 +34,8 @@ int main(int argc, char** argv)
     else
         print_primes(sieve, NUM_BITS);
     
-    #ifdef PRINT_MEM_USAGE
+    if (args.mem)
         printf("Memory used: %d Bytes\n", SIZE);
-    #endif
 
     free(sieve);
     return 0;
@@ -40,59 +43,53 @@ int main(int argc, char** argv)
 
 struct SieveArgs getSieveArgs(int argc, char** argv)
 {
-    struct SieveArgs sieveArgs = {100, 10, FALSE};
+    struct SieveArgs sieveArgs = {100, 10, FALSE, FALSE};
 
     int argIndex;
-    for (argIndex=1; argIndex < argc; argIndex++) 
+    for (argIndex = 1; argIndex < argc; argIndex++) 
     {
         char* argString = argv[argIndex];
-        if (strcmp(argString, "--fancy")) 
+        if (strcmp(argString, "--fancy") == STRING_MATCH) 
         {
             sieveArgs.fancy = TRUE;
         }
-        else if (strcmp(argString, "--max"))
+        else if (strcmp(argString, "--mem") == STRING_MATCH)
+        {
+            sieveArgs.mem = TRUE;
+        }
+        else if (strcmp(argString, "--max") == STRING_MATCH)
         {
             if (++argIndex >= argc)
             {
-                printf("Invalid command line usage, no number given for --max\n");
-                printf("Valid usage: ./sieve [--max 100] [--cols 10] [--fancy]\n");
-                exit(-1);
+                printErrorAndExit(argString);
             }
 
             char* numString = argv[argIndex];
-            if (!isNumber) 
+            if (!isInteger(numString)) 
             {
-                printf("Invalid command line usage, %s must be an integer\n", numString);
-                printf("Valid usage: ./sieve [--max 100] [--cols 10] [--fancy]\n");
-                exit(-1);
+                printErrorAndExit(numString);
             }
 
             sieveArgs.maxNum = atoi(numString);
         }
-        else if (strcmp(argString, "--cols"))
+        else if (strcmp(argString, "--cols") == STRING_MATCH)
         {
             if (++argIndex >= argc)
             {
-                printf("Invalid command line usage, no number given for --cols\n");
-                printf("Valid usage: ./sieve [--max 100] [--cols 10] [--fancy]\n");
-                exit(-1);
+                printErrorAndExit(argString);
             }
 
             char* numString = argv[argIndex];
-            if (!isNumber)
+            if (!isInteger(numString))
             {
-                printf("Invalid command line usage, %s must be an integer\n", numString);
-                printf("Valid usage: ./sieve [--max 100] [--cols 10] [--fancy]\n");
-                exit(-1);
+                printErrorAndExit(numString);
             }
 
             sieveArgs.numCols = atoi(numString);
         }
         else
         {
-            printf("Invalid command line argument: %s\n", argString);
-            printf("Valid usage: ./sieve [--max 100] [--cols 10] [--fancy]\n");
-            exit(-1);
+            printErrorAndExit(argString);
         }
         
     }
@@ -100,7 +97,7 @@ struct SieveArgs getSieveArgs(int argc, char** argv)
     return sieveArgs;
 }
 
-BOOL isNumber(char* string)
+BOOL isInteger(char* string)
 {
     int i;
     for (i = 0; i < strlen(string); i++)
@@ -113,4 +110,11 @@ BOOL isNumber(char* string)
     }
 
     return TRUE;
+}
+
+void printErrorAndExit(char* arg)
+{
+    printf("Invalid command line argument: %s\n", arg);
+    printf("Valid usage: ./sieve [--max 100] [--cols 10] [--fancy] [--mem]\n");
+    exit(-1);
 }
