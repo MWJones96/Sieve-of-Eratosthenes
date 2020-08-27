@@ -44,15 +44,17 @@ void printPrimes(struct SieveConfig config)
 {
     (config.args.fancy) ? 
         printPrimesFancy(config.sieve, config.NUM_BITS, config.args.numCols, config.args.maxNum) : 
-        printPrimesList(config.sieve, config.NUM_BITS);
+        printPrimesList(config.sieve, config.NUM_BITS, config.args.maxNum);
 
      if (config.args.mem)
         printf("Memory used: %d Bytes\n", config.SIZE);
     
 }
 
-void printPrimesList(uint8_t* sieve, size_t size)
+void printPrimesList(uint8_t* sieve, size_t size, int max)
 {
+    printf("Prime numbers <= %d\n", max);
+
     int i;
     for (i = 0; i < size; i++)
     {
@@ -67,7 +69,7 @@ void printPrimesFancy(uint8_t* sieve, size_t size, uint8_t cols, int max)
 {
     const uint8_t NUM_DIGITS = numDigits(getHighestPrime(sieve, size));
 
-    printf("All prime numbers <= %d\n", max);
+    printf("Pprime numbers <= %d\n", max);
     printRow(cols, NUM_DIGITS);
 
     int nums_placed = 0;
@@ -149,7 +151,7 @@ int getTotalNumberOfPrimes(uint8_t* sieve, size_t size)
     int total = 0;
 
     int i;
-    for (i = 0; i < size; i++)
+    for (i = 2; i < size; i++)
     {
         if (!getBit(sieve, i))
         {

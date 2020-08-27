@@ -38,8 +38,8 @@ struct SieveArgs getSieveArgs(int argc, char** argv)
                 printErrorAndExit(numString, "--cols is not a positive integer");
 
             int num = atoi(numString);
-            if (num < 2)
-                printErrorAndExit(numString, "--cols must be >= 2");
+            if (num < 1)
+                printErrorAndExit(numString, "--cols must be >= 1");
 
             sieveArgs.numCols = num;
         }
